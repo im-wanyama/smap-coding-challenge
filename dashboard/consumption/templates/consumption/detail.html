@@ -1,5 +1,14 @@
-{% extends 'consumption/layout.html' %}
+<!DOCTYPE html>
+{% extends 'consumption/summary.html' %}
 
-{% block content %}
+{% block id %}
+<h3>{{ user_id }}</h3>
+{% endblock %}
 
+{% block header %}
+<form id="search"  method = "GET" action="{% url 'detail_search' %}" 
+  accept-charset="utf-8">
+    {{form.as_p}}
+  <button id="button" type="submit" >Search</button>
+</form>
 {% endblock %}

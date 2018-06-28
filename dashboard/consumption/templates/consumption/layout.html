@@ -1,8 +1,52 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Analysis Tool</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css"
+      href="{% static 'style.css' %}">
   </head>
   <body>
-    {% block content %}{% endblock content %}
+
+    <div class="header">
+      <h1 id="banner">
+        <a class="white" href="{% url 'layout' %}"
+        style="text-decoration: none">
+        Analysis App
+        </a>
+      </h1>
+
+      {% block header %}
+      {% endblock %}
+    </div>
+
+    <div class="container">
+
+      <div id="side_bar">
+        <p class="side_links">
+          <a class="white" href="{% url 'summary' %}"
+             style="text-decoration: none">
+           Summary
+          </a>
+        </p>
+        <p class="side_links">
+          <a class="white" href="{% url 'detail' %}"
+             style="text-decoration: none">
+           Details
+          </a>
+        </p>
+      </div>
+      {% block content %}
+      <div id="welcome">
+      <h1>
+        Welcome to the My Analysis app.
+        </br>
+        Please click on a tab on the left hand side!
+      </h1>
+      </div>
+      {% endblock %}
+    </div>
+
   </body>
+
 </html>

@@ -1,7 +1,32 @@
+<!DOCTYPE html>
 {% extends 'consumption/layout.html' %}
 
 {% block content %}
 
-<h1>{{message}}</h1>
+<div class="subcontainer">
+  <div class="subheader">
+    <h3>Tables</h3>
+  </div>
+
+  <div class="results">
+    {% for table in tables %}
+        {{table|safe}}
+    {% endfor %}
+  </div>
+</div>
+
+<div class="subcontainer" id="graphs">
+  <div class="subheader">
+    <h3>Graphs</h3>
+  </div>
+
+  <div class="results">
+      {% block id %}
+      {% endblock %}
+    {% for graph in graphs %}
+      <img src="data:;base64,{{ graph }}"/>
+    {% endfor %}
+  </div>
+</div>
 
 {% endblock %}

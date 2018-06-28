@@ -1,6 +1,27 @@
 SMAP Python Developer Challenge
 ====
 
+### Analysis Web app setup
+
+git clone https://github.com/im-wanyama/smap-coding-challenge.git
+brew install pyenv
+brew install pyenv-virtualenv
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bash_profile
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bash_profile
+echo 'eval "$(pyenv init -)"' >> ~/.bash_profile
+echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bash_profile
+pyenv install 3.6.5
+
+cd smap-coding-challenge
+pyenv virtualenv 3.6.5 venv
+Deactivate any virtual environment that you are currently running
+pyenv activate venv
+
+pip install -r requirements.txt
+python path/to/manage.py migrate
+python path/to/manage.py import
+python path/to/manage.py runserver [addrport]
+
 ### Why do we ask you to do this challenge?
 
 As part of the SMAP interview process, we are asking you to work on a small coding exercise to help us understand your skills, and give you an idea of the work you would be doing with us.
