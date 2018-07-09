@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 {% extends 'consumption/summary.html' %}
 
-{% block id %}
-<h3>{{ user_id }}</h3>
-{% endblock %}
-
 {% block header %}
 <form id="search"  method = "GET" action="{% url 'detail_search' %}" 
   accept-charset="utf-8">
@@ -12,3 +8,70 @@
   <button id="button" type="submit" >Search</button>
 </form>
 {% endblock %}
+
+{% block table %}
+      {% if no_id %}
+      {{ no_id | safe }}
+      {% endif %}
+      {% if user_rows %}
+      <table class="dataframe">
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Area</th>
+              <th>Tariff</th>
+              <th>Timestamp</th>
+              <th>Consumption</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for user in user_rows %}
+                <tr>
+                  <td>{{ user.id }}</td>
+                  <td>{{ user.area }}</td>
+                  <td>{{ user.tariff }}</td>
+                  <td>{{ user.consumption__datetime }}</td>
+                  <td>{{ user.consumption__consumption }}</td>
+                </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+      {% endif %}
+
+  {% if user_rows.has_other_pages %}
+    <ul class="pagination">
+      {% if user_rows.has_previous %}
+        <li><a href="?id_search={{ user_id }}&page={{ users.previous_page_number }}">&laquo;</a></li>
+      {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+      {% endif %}
+      {% for i in user_rows.paginator.page_range %}
+        {% if user_rows.number == i %}
+          <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+        {% else %}
+          <li><a href="?id_search={{ user_id }}&page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+      {% endfor %}
+      {% if user_rows.has_next %}
+        <li><a href="?id_search={{ user_id }}&page={{ users.next_page_number }}">&raquo;</a></li>
+      {% else %}
+        <li class="disabled"><span>&raquo;</span></li>
+      {% endif %}
+    </ul>
+  {% endif %}
+  {% endblock %}
+
+  {% block graph %}
+  <x-graph width="800" height="600" type="line" x_axis="Month" 
+   y_axis="Average Consumption" id="{{user_id}}"
+   title="Average Consumption for User ID {{user_id}}"></x-graph>
+  {% endblock %}
+
+  {% block script %}
+  {% load staticfiles %}
+  {% if user_rows %}
+  <script type="application/javascript" src="{% static 'js/bundle.js' %}"></script>
+  {% endif %}
+  {% endblock %}
+  
+

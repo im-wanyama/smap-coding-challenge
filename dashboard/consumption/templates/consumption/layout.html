@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Analysis Tool</title>
+    <title>Analysis App</title>
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css"
-      href="{% static 'style.css' %}">
+      href="{% static 'css/style.css' %}">
   </head>
   <body>
 
@@ -46,7 +46,8 @@
       </div>
       {% endblock %}
     </div>
-
+    {% block script %}
+    {% endblock %}
   </body>
 
 </html>

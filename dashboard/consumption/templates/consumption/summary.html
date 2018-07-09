@@ -9,9 +9,11 @@
   </div>
 
   <div class="results">
+    {% block table %}
     {% for table in tables %}
         {{table|safe}}
     {% endfor %}
+    {% endblock %}
   </div>
 </div>
 
@@ -21,12 +23,23 @@
   </div>
 
   <div class="results">
-      {% block id %}
+      {% block graph %}
+    <x-graph width="800" height="600" type="line" x_axis="Month" 
+    y_axis="Average Consumption"
+    title="Average consumption of all users over time"></x-graph>
+    <x-graph width="800" height="600" type="bar" x_axis="Area" 
+    y_axis="Average Consumption"
+    title="Average consumption of all area codes"></x-graph>
+    <x-graph width="800" height="600" type="bar" x_axis="Tariff" 
+    y_axis="Average Consumption"
+    title="Average consumption of all tariff codes"></x-graph>
       {% endblock %}
-    {% for graph in graphs %}
-      <img src="data:;base64,{{ graph }}"/>
-    {% endfor %}
   </div>
 </div>
 
+{% endblock %}
+
+{% block script %}
+{% load staticfiles %}
+<script type="application/javascript" src="{% static 'js/bundle.js' %}"></script>
 {% endblock %}
