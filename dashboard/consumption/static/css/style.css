@@ -11,7 +11,7 @@
 #banner {
   font-size: 30px;
   height: 55px;
-  padding: 13px 15px 12px 15px;
+  padding: 20px 15px 12px 15px;
   width: 42%;
 }
 
@@ -67,11 +67,11 @@
 }
 
 #search {
-  padding: 20px 15px 10px 200px;
   height: 25px;
-  padding: 5px;
+  padding: 12px;
   width: 15%;
   margin-top: 10px;
+  margin-left: 58%;
 }
 
 #button {

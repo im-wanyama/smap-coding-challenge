@@ -109,3 +109,67 @@ class SummaryTestCase(TestCase):
         self.assertEqual(df.at[0, 'Datetime'],
                          pd.Timestamp('2016-10-22 10:00:00'))
         self.assertEqual(df.at[0, 'Consumption'], 3.0)
+
+    def test_details_api(self):
+        consumption_data = []
+        sem = []
+        id_search = 1
+        data = list(User_data.objects.select_related('user_data_id')
+                    .values('id', 'consumption__datetime',
+                            'consumption__consumption')
+                    .filter(id=id_search)
+                    .order_by('consumption__datetime')
+                    )
+        df = pd.DataFrame(data)
+        df['month'] = pd.to_datetime(
+            df['consumption__datetime']).dt.strftime('%b-%Y')
+        for i in df['month'].unique():
+            consumption_data.append(df['consumption__consumption'].where(
+                df['month'] == i).mean().round(2))
+            sem.append(df['consumption__consumption'].where(
+                df['month'] == i).sem().round(2))
+        self.assertEqual(consumption_data[0], 2.0)
+        self.assertEqual(sem[0], 0.58)
+
+    def test_summary_api(self):
+        response = {
+            'month_data': {'x_axis': [], 'y_axis': [], 'sem': []},
+            'area_data': {'x_axis': [], 'y_axis': [], 'sem': []},
+            'tariff_data': {'x_axis': [], 'y_axis': [], 'sem': []}
+                }
+        queries = {
+            'month': list(Consumption.objects
+                          .values('datetime', 'consumption')
+                          .order_by('datetime')
+                          # consumption for each date
+                          ),
+            'area': list(User_data.objects.select_related('user_data_id')
+                         .values('area', 'consumption__consumption')
+                         .order_by('area')
+                         # consumption for each area
+                         ),
+            'tariff': list(User_data.objects.select_related('user_data_id')
+                           .values('tariff', 'consumption__consumption')
+                           .order_by('tariff')
+                           # consumption for each tariff
+                           )}
+        for data_type, data in queries.items():
+            df = pd.DataFrame(data)
+            df = df.rename(columns={'consumption__consumption': 'consumption'})
+            if 'datetime' in df.columns and len(df.columns) == 2:
+                df['month'] = pd.to_datetime(
+                    df['datetime']).dt.strftime('%b-%Y')
+            response[f'{data_type}_data']['x_axis'] = list(
+                df[data_type].unique())
+            for i in df[data_type].unique():
+                response[f'{data_type}_data']['y_axis'].append(
+                    df['consumption'].where(df[data_type] == i)
+                    .mean().round(2))
+                response[f'{data_type}_data']['sem'].append(
+                    df['consumption'].where(df[data_type] == i)
+                    .sem().round(2))
+        for data, x_axis in {'month_data': 'Oct-2016', 'area_data': 'a1',
+                             'tariff_data': 't2'}.items():
+            self.assertEqual(response[data]['x_axis'], [x_axis])
+            self.assertEqual(response[data]['y_axis'], [2.0])
+            self.assertEqual(response[data]['sem'], [0.58])

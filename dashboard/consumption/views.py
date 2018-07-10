@@ -152,28 +152,34 @@ def summary_api(request):
                 }
     queries = {
         'month': list(Consumption.objects
-                      .values('datetime', 'consumption').order_by('datetime')
+                      .values('datetime', 'consumption')
+                      .order_by('datetime')
                       # consumption for each date
                       ),
         'area': list(User_data.objects.select_related('user_data_id')
-                     .values('area', 'consumption').order_by('area')
+                     .values('area', 'consumption__consumption')
+                     .order_by('area')
                      # consumption for each area
                      ),
         'tariff': list(User_data.objects.select_related('user_data_id')
-                       .values('tariff', 'consumption').order_by('tariff')
+                       .values('tariff', 'consumption__consumption')
+                       .order_by('tariff')
                        # consumption for each tariff
                        )}
     for data_type, data in queries.items():
         df = pd.DataFrame(data)
+        df = df.rename(columns={'consumption__consumption': 'consumption'})
         if 'datetime' in df.columns and len(df.columns) == 2:
             df['month'] = pd.to_datetime(
                 df['datetime']).dt.strftime('%b-%Y')
         response[f'{data_type}_data']['x_axis'] = list(df[data_type].unique())
         for i in df[data_type].unique():
             response[f'{data_type}_data']['y_axis'].append(
-                df['consumption'].where(df[data_type] == i).mean().round(2))
+                df['consumption'].where(df[data_type] == i)
+                .mean().round(2))
             response[f'{data_type}_data']['sem'].append(
-                df['consumption'].where(df[data_type] == i).sem().round(2))
+                df['consumption'].where(df[data_type] == i)
+                .sem().round(2))
         del df
     response = JsonResponse([response['month_data'], response['area_data'],
                              response['tariff_data']], safe=False)
