@@ -95,6 +95,6 @@ ENV/
 .vscode
 settings.
 
-# JS linter files
+# Files associated with JS
 .eslintrc.json
 node_modules

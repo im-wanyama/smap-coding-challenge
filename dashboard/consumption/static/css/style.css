@@ -16,11 +16,9 @@
 }
 
 #side_bar {
-  position: relative;
   background-color: #002133;
   font-size: 18px;
   width: 10%;
-  min-height: 100%;
   text-align: left;
   display: block;
   padding: 10px 15px;
@@ -33,22 +31,23 @@
   text-align: center;
   width: 90%;
   padding: 210px 15px;
-
+  min-height: 100%
 }
 
 .container {
-  display: flex;
-  min-height: 92.8vh;
+  display: inline-flex;
+  height: 92.8vh;
+  width: 100%;
 }
 
 .subcontainer {
   position: relative;
-  width: 42%;
+  width: 41%;
 }
 
 #graphs {
   position: relative;
-  width: 48%;
+  width: 59%;
 }
 
 .subheader {
@@ -93,6 +92,7 @@
 
 .results {
   overflow: auto;
+  height: 95%;
 }
 
 .white{
