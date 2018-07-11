@@ -26,7 +26,7 @@
 
 #welcome {
   position: relative;
-  color: #cccccc;
+  color: #ccc;
   font-size: 18px;
   text-align: center;
   width: 90%;
@@ -54,13 +54,13 @@
   position: relative;
   border: 1px solid grey;
   font-size: 20px;
-  padding: 8px 5px
+  padding: 8px 5px;
+  height: 5%;
 }
 
 .dataframe {
   position: relative;
   font-size: 20px;
-  height: 5px;
   width: 100%;
   border-collapse: collapse;
 }
@@ -96,7 +96,7 @@
 }
 
 .white{
-  color: #FFFFFF;
+  color: #FFF;
 }
 
 form {
@@ -122,4 +122,8 @@ li {
 .comments {
   padding-left: 10px;
   padding-top: 10px;
+}
+
+.pagination {
+  padding: 0px;
 }
