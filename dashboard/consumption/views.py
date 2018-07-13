@@ -5,9 +5,9 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.db.models import Sum, Avg
 from django.db.models.functions import TruncDate
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from consumption.forms import Search
 from consumption.models import User_data, Consumption
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 LAYOUT_HTML = 'consumption/layout.html'
 SUMMARY_HTML = 'consumption/summary.html'
@@ -25,7 +25,7 @@ def detail(request):
 
 
 def summary(request):
-    '''Creates tables and graphs summarising data in the db.'''
+    '''Creates tables summarising data in the db.'''
     tables = []
     queries = {
         'user_data_id': list(Consumption.objects.values('user_data_id')
@@ -78,7 +78,7 @@ def summary(request):
 
 
 def detail_search(request):
-    '''Creates tables and graphs to show all available data for a specific
+    '''Creates a table that shows all available data for a specific
        user id, this is inputted by the user via the web app.'''
     form = Search(request.GET)
     page = request.GET.get('page', 1)
@@ -114,6 +114,8 @@ def detail_search(request):
 
 
 def detail_search_api(request):
+    '''Creates json data which is used to create JS graphs which show
+       consumption over time (months) for a specific user.'''
     consumption_data = []
     sem = []
     data = []
@@ -145,6 +147,8 @@ def detail_search_api(request):
 
 
 def summary_api(request):
+    '''Creates json data which is used to create JS graphs to
+       summarise data in the db.'''
     response = {
         'month_data': {'x_axis': [], 'y_axis': [], 'sem': []},
         'area_data': {'x_axis': [], 'y_axis': [], 'sem': []},

@@ -14,5 +14,5 @@ export async function getConsumptionData(id) {
     }
   } catch (error) {
     console.log(error);
-  }ßßß
+  }
 }

@@ -111,6 +111,8 @@ class SummaryTestCase(TestCase):
         self.assertEqual(df.at[0, 'Consumption'], 3.0)
 
     def test_details_api(self):
+        '''Tests that the correct json data is created for the details
+           graphs.'''
         consumption_data = []
         sem = []
         id_search = 1
@@ -132,6 +134,8 @@ class SummaryTestCase(TestCase):
         self.assertEqual(sem[0], 0.58)
 
     def test_summary_api(self):
+        '''Tests that the correct json data is created for the summary
+           graphs.'''
         response = {
             'month_data': {'x_axis': [], 'y_axis': [], 'sem': []},
             'area_data': {'x_axis': [], 'y_axis': [], 'sem': []},
