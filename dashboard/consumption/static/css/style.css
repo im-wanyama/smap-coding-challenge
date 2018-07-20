@@ -36,7 +36,7 @@
 
 .container {
   display: inline-flex;
-  height: 100vh;
+  height: calc(100vh - 65px);
   width: 100%;
 }
 
@@ -52,10 +52,11 @@
 
 .subheader {
   position: relative;
-  border: 1px solid grey;
+  border: 1px solid #808080;
   font-size: 20px;
   padding: 8px 5px;
-  height: 5%;
+  height: 40px;
+  white-space: nowrap;
 }
 
 .dataframe {
@@ -86,11 +87,12 @@
   background-color: #006399;
   width: 100%;
   height: 65px;
+  white-space: nowrap;
 }
 
 .results {
   overflow: auto;
-  height: 95%;
+  height: calc(100% - 40px);
 }
 
 .white{
@@ -103,9 +105,9 @@ form {
 
 tr:nth-child(even){background-color: #f2f2f2}
 
-th {
+thead {
     background-color: #006399;
-    color: white;
+    color: #FFF;
 }
 
 th, td {

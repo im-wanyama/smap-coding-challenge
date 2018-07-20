@@ -72,7 +72,7 @@ def summary(request):
                                 'Average_consumption': 'Average Consumption',
                                 'Total_consumption': 'Total Consumption',
                                 'area': 'Area', 'tariff': 'Tariff'})
-        tables.append(df.to_html(index=False))
+        tables.append(df.to_html(index=False, justify='left'))
         del df
     return render(request, SUMMARY_HTML, {'tables': tables})
 
