@@ -144,5 +144,3 @@ class XGraph extends HyperHTMLElement {
     this.graph = echart.init(this.firstElementChild);
   }
 }
-
-XGraph.define("x-graph");
